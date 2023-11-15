@@ -1,0 +1,61 @@
+<p-table
+  [value]="employees"
+  [scrollable]="true"
+  scrollHeight="76vh"
+  [paginator]="true"
+  [rows]="request.rows"
+  [first]="request.first"
+  [lazy]="true"
+  (onLazyLoad)="loadEmployees($event)"
+  [totalRecords]="employees.length < 10 ? 10 : 20"
+  [customSort]="true"
+  (sortFunction)="loadEmployees($event)"
+>
+  <ng-template pTemplate="caption">
+    <div class="flex align-items-center justify-content-between">
+      <h2>Employees</h2>
+      <div>
+        <input
+          pInputText
+          type="text"
+          (input)="filterEmployee()"
+          placeholder="Search firstName"
+          [(ngModel)]="globalFilter"
+        />
+      </div>
+    </div>
+  </ng-template>
+  <ng-template pTemplate="header">
+    <tr>
+      <th pSortableColumn="firstName">
+        FirstName <p-sortIcon field="firstName"></p-sortIcon>
+      </th>
+      <th>Last Name</th>
+      <th>Role</th>
+      <th>Dob</th>
+      <th>Email</th>
+      <th>Gender</th>
+      <th>Country</th>
+      <th>Join Date</th>
+      <th>Status</th>
+    </tr>
+  </ng-template>
+  <ng-template pTemplate="body" let-employee>
+    <tr>
+      <td>{{ employee.firstName }}</td>
+      <td>{{ employee.lastName }}</td>
+      <td>{{ employee.role }}</td>
+      <td>{{ employee.dob }}</td>
+      <td>{{ employee.email }}</td>
+      <td>{{ employee.gender }}</td>
+      <td>{{ employee.country }}</td>
+      <td>{{ employee.dateOfJoining }}</td>
+      <td>
+        <p-tag
+          [severity]="employee.active ? 'success' : 'warning'"
+          [value]="employee.active ? 'Active' : 'Inactive'"
+        ></p-tag>
+      </td>
+    </tr>
+  </ng-template>
+</p-table>
